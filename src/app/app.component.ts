@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'licentaFE';
+  title = 'Tic Tac Toe';
+  public isAuthenticated = false;
+  
+  public logout(): void {
+    // todo
+  }
 }

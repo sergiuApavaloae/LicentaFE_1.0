@@ -1,0 +1,26 @@
+<head>
+  <title>Sergiu's Blog</title>
+</head>
+
+<h1 class="center">Welcome to Sergiu's Urban Report App</h1>
+<div class="login">
+ 
+  <button (click)="newArticle()" mat-stroked-button color="warn">Authenticate</button>|
+  <button (click)="addUser()" mat-stroked-button color="warn">Login</button>
+</div>
+<p>HOME PAGE</p>
+
+<div class="form-group col-5" >
+  <form [formGroup]="form">
+    <label>Name</label>
+    <input type="text" formControlName="name" class="form-control">
+    <label>Email</label>
+    <input type="text" formControlName="email" class="form-control">
+
+  </form>
+</div>
+<div>
+<button (click)="addUser()" mat-stroked-button color="primary">Add this user </button>
+
+  <button (click)="back()" mat-stroked-button color="primary">Back</button>
+  </div>  
