@@ -37,6 +37,7 @@ export class ApiService {
     return this.httpClient.get<User>(`${this.API_SERVER}/user/${email}`)
   }
   public createUser(user: User){
+    console.log('Ceva')
     return this.httpClient.post<User>(`${this.API_SERVER}/user`, user)
       .pipe(
       tap(()=>{
