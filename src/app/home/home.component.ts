@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 
 @Component({
@@ -11,7 +12,8 @@ export class HomeComponent implements OnInit {
 
     constructor(
       private apiService: ApiService,
-      private formBuilder: FormBuilder
+      private formBuilder: FormBuilder,
+      private router:Router,
     ) {
 
      }
@@ -36,6 +38,11 @@ export class HomeComponent implements OnInit {
   }
   back(): void {
     window.history.back();
+  }
+
+  Ar():void{
+
+      this.router.navigateByUrl('Armode');
   }
 
 }
