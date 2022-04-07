@@ -11,7 +11,7 @@ import { User } from './shared/user';
 export class ApiService {
 
   constructor(private httpClient:HttpClient) { }
-  API_SERVER = "https://urban-app-be.herokuapp.com/";
+  API_SERVER = "https://urban-app-be.herokuapp.com";
 
   private _refreshNeeded=new Subject<void>()
   get refreshNeeded(){
