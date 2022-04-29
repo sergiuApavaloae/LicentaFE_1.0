@@ -17,13 +17,15 @@ import { HomeComponent } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ArmodeComponent } from './armode/armode.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    ArmodeComponent
+    ArmodeComponent,
+    MapComponent
     ],
   imports: [
     BrowserModule,

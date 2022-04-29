@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Article} from "./shared/article";
-import {pipe, Subject} from "rxjs";
+import {Observable, pipe, Subject} from "rxjs";
 import {tap} from "rxjs/operators";
 import { User } from './shared/user';
 
@@ -36,15 +36,20 @@ export class ApiService {
   public getUser(email:string){
     return this.httpClient.get<User>(`${this.API_SERVER}/user/${email}`)
   }
+  public loginUser(user: User):Observable<User>{
+    return this.httpClient.post<User>(`http://localhost:3000/auth/login`, user) as Observable<User>
+  }
+
   public createUser(user: User){
-    console.log('Ceva')
-    return this.httpClient.post<User>(`${this.API_SERVER}/user`, user)
+    return this.httpClient.post<User>(`http://localhost:3000/user`, user)
       .pipe(
       tap(()=>{
         this._refreshNeeded.next();
       })
     );
   }
+
+
 
   // public updateArticles(article: Article){
   //   console.log(article.title);

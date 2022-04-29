@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~8.0.0",
     "@angular/router": "~8.0.0",
     "@ar-js-org/ar.js": "^3.4.0-alpha-rc2",
+    "@types/googlemaps": "^3.43.3",
     "aframe": "^1.3.0",
     "firebase": "^9.4.0",
     "hammerjs": "^2.0.8",

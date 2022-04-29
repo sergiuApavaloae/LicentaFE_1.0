@@ -19,6 +19,7 @@ export class UserComponent implements OnInit {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      password:['', Validators.required]
     }
   );
   }
@@ -28,6 +29,7 @@ export class UserComponent implements OnInit {
       id: 0,
       name: this.form.value.name,
       email: this.form.value.email,
+      password:this.form.value.password
     }).subscribe(res => {
       this.back();
     });

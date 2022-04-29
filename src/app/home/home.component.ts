@@ -18,22 +18,43 @@ export class HomeComponent implements OnInit {
 
      }
   form: FormGroup;
+  wantAuth:boolean=false
 
   ngOnInit() {
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      password: ['', Validators.required]
     }
   );
   }
+  showAuthentification():void{
+    this.wantAuth=!this.wantAuth
+  }
   async addUser() {
     this.apiService.createUser({
-      id: 0,
       name: this.form.value.name,
       email: this.form.value.email,
+      password:this.form.value.password
     }).subscribe(res => {
-      //this.back();
+      this.Ar()
     });
+
+  }
+  loginError:boolean=false;
+  async loginUser() {
+    this.apiService.loginUser({
+      email: this.form.value.email,
+      password:this.form.value.password
+    }).subscribe(res => {
+      console.log(res)
+
+      this.Ar()
+    },err=>{
+      this.loginError=true;
+      console.log(err)
+    }
+    );
 
   }
   back(): void {
@@ -44,5 +65,9 @@ export class HomeComponent implements OnInit {
 
       this.router.navigateByUrl('Armode');
   }
+  map():void{
+
+    this.router.navigateByUrl('map');
+}
 
 }
