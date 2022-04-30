@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {} from 'googlemaps';
 import { ViewChild } from '@angular/core';
+import { PinService } from '../pin.service';
 
 @Component({
   selector: 'app-map',
@@ -8,39 +9,70 @@ import { ViewChild } from '@angular/core';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
+  latitude: number;
+  longitude: number;
+  zoom: number;
 
-  constructor() { }
+  constructor(private pinService:PinService) { }
   
   @ViewChild('map',{static: false}) mapElement: any;
   map: google.maps.Map;
   ngOnInit(): void {
-    const mapProperties = {
-         center: new google.maps.LatLng(35.2271, -80.8431),
-         zoom: 15,
-         mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+    this.setCurrentLocation()
  }
- markers = [
-  { lat: 22.33159, lng: 105.63233 },
-  { lat: 7.92658, lng: -12.05228 },
-  { lat: 48.75606, lng: -118.859 },
-  { lat: 5.19334, lng: -67.03352 },
-  { lat: 12.09407, lng: 26.31618 },
-  { lat: 47.92393, lng: 78.58339 }
-];
- ngAfterViewInit():void{
+ allPins=[]
+  ngAfterViewInit():void{
   const mapProperties = {
     center: new google.maps.LatLng(45.2271, 25.8431),
-    zoom: 5,
+    zoom: 15,
     mapTypeId: google.maps.MapTypeId.ROADMAP
 };
-  this.map = new google.maps.Map(this.mapElement.nativeElement,    mapProperties);
-  this.markers.forEach(location => {
+if ('geolocation' in navigator) {
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position)
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
+    this.zoom = 15;
+    mapProperties.center=new google.maps.LatLng(this.latitude, this.longitude)
+  });
+}
+  this.allPins=this.pinService.allPins
+  this.map = new google.maps.Map(this.mapElement.nativeElement,mapProperties);
+  this.allPins.forEach((pin)=>{
     var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(location.lat, location.lng),
+        position: new google.maps.LatLng(pin.lat,
+      pin.lng),
       map: this.map
     });
+  })
+  this.map.addListener("click", (mapsMouseEvent) => {
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(mapsMouseEvent.latLng.toJSON().lat,
+      mapsMouseEvent.latLng.toJSON().lng),
+      map: this.map
+    });
+    // if(this.allPins.length==2)
+    // marker.setMap(null)
+    this.pinService.addPin(mapsMouseEvent.latLng.toJSON().lat,
+    mapsMouseEvent.latLng.toJSON().lng)
   });
+  
  }
+ private setCurrentLocation() {
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.zoom = 15;
+    });
+  }
+}
+
+  placeMarker(map:google.maps.Map, location:google.maps.LatLng):void {
+  var marker = new google.maps.Marker({
+    position: location,
+    map: map
+  });
+}
 
 }
