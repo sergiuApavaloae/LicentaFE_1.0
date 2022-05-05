@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
+import {MatDialog} from '@angular/material/dialog';
+import { DialogComponent } from '../dialog/dialog.component';
+
 
 @Component({
   selector: 'app-home',
@@ -14,6 +17,7 @@ export class HomeComponent implements OnInit {
       private apiService: ApiService,
       private formBuilder: FormBuilder,
       private router:Router,
+      public dialog: MatDialog
     ) {
 
      }

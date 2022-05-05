@@ -12,12 +12,16 @@ import {
   MatIconModule,
   MatButtonModule,
   MatCardModule,
-  MatGridListModule } from '@angular/material';
+  MatGridListModule, 
+  MatDialog,
+  MatDialogModule} from '@angular/material';
 import { HomeComponent } from './home/home.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ArmodeComponent } from './armode/armode.component';
 import { MapComponent } from './map/map.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogReadOnlyComponent } from './dialog-read-only/dialog-read-only.component';
 
 
 @NgModule({
@@ -25,7 +29,9 @@ import { MapComponent } from './map/map.component';
     AppComponent,
     HomeComponent,
     ArmodeComponent,
-    MapComponent
+    MapComponent,
+    DialogComponent,
+    DialogReadOnlyComponent
     ],
   imports: [
     BrowserModule,
@@ -43,10 +49,17 @@ import { MapComponent } from './map/map.component';
   MatCardModule,
   MatGridListModule,
   ReactiveFormsModule,
-  HttpClientModule
+  HttpClientModule,
+  MatDialogModule,
+  MatInputModule,
+  FormsModule      
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  entryComponents: [
+    DialogComponent,
+    DialogReadOnlyComponent
+  ],
 })
 export class AppModule { }

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Hi Sergiu</h1>
+<div mat-dialog-content>
+  <p>{{data.description}}</p>
+  <p>Please select an image</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Exit</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>
