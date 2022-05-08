@@ -1,6 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DialogData } from '../dialog/dialog.component';
+import { PinService } from '../pin.service';
+
+export interface DialogReadOnly {
+  destination: string;
+}
 
 @Component({
   selector: 'app-dialog-read-only',
@@ -11,7 +16,8 @@ export class DialogReadOnlyComponent{
 
   constructor(
     public dialogRef: MatDialogRef<DialogReadOnlyComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: DialogReadOnly,
+    private pinService:PinService
   ) {}
 
   onNoClick(): void {

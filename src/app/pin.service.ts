@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class PinService {
   allPins:any[]=[]
+  selectedPin:Pin
   constructor(private httpClient:HttpClient) { }
 
   addPin(pin:Pin){
@@ -21,5 +22,9 @@ export class PinService {
 
   getPins(){
     return this.httpClient.get<Pin[]>(`http://localhost:3000/pin`) as Observable<Pin[]>
+  }
+
+  setArDestination(pin:Pin){
+    this.selectedPin=pin
   }
 }

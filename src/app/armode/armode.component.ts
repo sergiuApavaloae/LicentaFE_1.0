@@ -14,7 +14,8 @@ export class ArmodeComponent implements OnInit {
   ngOnInit() {
     // console.log(this.allPins)
     // if(this.allPins)
-    this.string='latitude:' + this.allPins[0].lat.toFixed(10)+'; ' +'longitude:'+this.allPins[0].lng.toFixed(10)
+    this.string='latitude:' + this.pinService.selectedPin.latitude+'; ' +'longitude:'+this.pinService.selectedPin.longitude
+    //this.string='latitude:' + this.allPins[0].lat.toFixed(10)+'; ' +'longitude:'+this.allPins[0].lng.toFixed(10)
 
     var b = document.querySelector("a-box");
 

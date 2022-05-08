@@ -1,9 +1,11 @@
-<h1 mat-dialog-title>Hi Sergiu</h1>
+<h1 mat-dialog-title>This is the Pin description</h1>
 <div mat-dialog-content>
   <p>{{data.description}}</p>
-  <p>Please select an image</p>
-</div>
-<div mat-dialog-actions>
+  <mat-form-field appearance="fill">
+    <mat-label>Add as destination?</mat-label>
+    <input matInput [(ngModel)]="data.destination">
+   
+  </mat-form-field>
   <button mat-button (click)="onNoClick()">Exit</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
 </div>

@@ -16,6 +16,11 @@ export class MapComponent implements OnInit {
   latitude: number;
   longitude: number;
   zoom: number;
+  mapProperties={
+    center: new google.maps.LatLng(44.42, 26.10),
+    zoom: 17,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+};
 
   constructor(private pinService:PinService,
     public dialog: MatDialog) { }
@@ -24,27 +29,14 @@ export class MapComponent implements OnInit {
   map: google.maps.Map;
 
   actualPin:Pin=new Pin()
-
-  ngOnInit(): void {
+   ngOnInit(): void {
  }
  allPins:Pin[]=[]
   async ngAfterViewInit():Promise<void>{
-  const mapProperties = {
-    center: new google.maps.LatLng(45.2271, 25.8431),
-    zoom: 15,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-};
-if ('geolocation' in navigator) {
-  navigator.geolocation.getCurrentPosition((position) => {
-    console.log(position)
-    this.latitude = position.coords.latitude;
-    this.longitude = position.coords.longitude;
-    this.zoom = 15;
-    mapProperties.center=new google.maps.LatLng(this.latitude, this.longitude)
-  });
-}
-this.map = new google.maps.Map(this.mapElement.nativeElement,mapProperties);
-  this.pinService.getPins().subscribe(result=>{
+this.initMap()
+await this.getPosition()
+
+   this.pinService.getPins().subscribe(result=>{
     console.log(result)
     this.allPins=result
   this.allPins.forEach((pin)=>{
@@ -63,27 +55,7 @@ this.map = new google.maps.Map(this.mapElement.nativeElement,mapProperties);
     });
   })
 })
-  this.map.addListener("click", (mapsMouseEvent) => {
-    var marker = new google.maps.Marker({
-      position: new google.maps.LatLng(mapsMouseEvent.latLng.toJSON().lat,
-      mapsMouseEvent.latLng.toJSON().lng),
-      map: this.map
-    });
-
-    this.actualPin.latitude=mapsMouseEvent.latLng.toJSON().lat.toString();
-    this.actualPin.longitude=mapsMouseEvent.latLng.toJSON().lng.toString();
-    this.openDialog()
-
-    marker.addListener("click", () => {
-      this.map.setZoom(18);
-      this.map.setCenter(marker.getPosition() as google.maps.LatLng);
-      console.log("Click")
-      this.actualPin=this.getPin(marker.getPosition().lat().toString(),marker.getPosition().lng().toString())
-      console.log(this.actualPin)
-      this.openReadOnlyDialog()
-    });
-  
-  });
+this.initMap()
   
  }
  getPin(latitude:string,longitude:string){
@@ -116,6 +88,49 @@ openDialog(): void {
   }
   });
 }
+async getPosition():Promise<void>{
+  if ('geolocation' in navigator) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+      this.latitude = position.coords.latitude;
+      this.longitude = position.coords.longitude;
+      this.zoom = 17;
+      console.log(this.latitude,this.longitude)
+      this.mapProperties.center=new google.maps.LatLng(this.latitude, this.longitude)
+      this.initMap()      
+    });
+}
+}
+
+initMap():void{
+  this.map = new google.maps.Map(this.mapElement.nativeElement,this.mapProperties);
+  if(this.latitude){
+  var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(this.latitude,
+    this.longitude),
+    map: this.map,
+    icon:{url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"}
+  });
+}
+      this.map.addListener("click", (mapsMouseEvent) => {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(mapsMouseEvent.latLng.toJSON().lat,
+          mapsMouseEvent.latLng.toJSON().lng),
+          map: this.map
+        });
+        this.actualPin.latitude=mapsMouseEvent.latLng.toJSON().lat.toString();
+        this.actualPin.longitude=mapsMouseEvent.latLng.toJSON().lng.toString();
+        this.openDialog()
+        marker.addListener("click", () => {
+          this.map.setZoom(18);
+          this.map.setCenter(marker.getPosition() as google.maps.LatLng);
+          this.actualPin=this.getPin(marker.getPosition().lat().toString(),marker.getPosition().lng().toString())
+          console.log(this.actualPin)
+          this.openReadOnlyDialog()
+        });
+      
+      });
+}
 
 openReadOnlyDialog():void{
   console.log('HEREEE')
@@ -126,7 +141,10 @@ openReadOnlyDialog():void{
   });
 
   dialogRef.afterClosed().subscribe(result => {
+    console.log(this.actualPin);
     console.log(result);
+    if(result?.destination)
+      this.pinService.setArDestination(this.actualPin)
   });
 }
 
