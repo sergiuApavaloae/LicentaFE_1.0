@@ -1,6 +1,7 @@
 <h1 mat-dialog-title>This is the Pin description</h1>
 <div mat-dialog-content>
   <p>{{data.description}}</p>
+  <p *ngIf="data.userName">This is {{data.userName}}'s report </p>
   <mat-form-field appearance="fill">
     <mat-label>Add as destination?</mat-label>
     <input matInput [(ngModel)]="data.destination">

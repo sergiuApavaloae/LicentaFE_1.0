@@ -5,6 +5,7 @@ import { PinService } from '../pin.service';
 
 export interface DialogReadOnly {
   destination: string;
+  userName:string
 }
 
 @Component({

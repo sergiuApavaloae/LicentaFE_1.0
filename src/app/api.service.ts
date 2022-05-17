@@ -36,8 +36,8 @@ export class ApiService {
   public getUser(email:string){
     return this.httpClient.get<User>(`${this.API_SERVER}/user/${email}`)
   }
-  public loginUser(user: User):Observable<User>{
-    return this.httpClient.post<User>(`http://localhost:3000/auth/login`, user) as Observable<User>
+  public loginUser(user: User):Observable<any>{
+    return this.httpClient.post<any>(`http://localhost:3000/auth/login`, user) as Observable<any>
   }
 
   public createUser(user: User){

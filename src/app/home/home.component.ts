@@ -41,7 +41,8 @@ export class HomeComponent implements OnInit {
       email: this.form.value.email,
       password:this.form.value.password
     }).subscribe(res => {
-      this.Ar()
+      localStorage.setItem('userId',res.id.toString());
+      this.map()
     });
 
   }
@@ -52,8 +53,9 @@ export class HomeComponent implements OnInit {
       password:this.form.value.password
     }).subscribe(res => {
       console.log(res)
-
-      this.Ar()
+      localStorage.setItem('userId',res.userId.toString());
+      localStorage.setItem('token',res.access_token);
+      this.map()
     },err=>{
       this.loginError=true;
       console.log(err)

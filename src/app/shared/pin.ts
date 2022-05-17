@@ -5,7 +5,7 @@ export interface Pin{
     type?:string;
     latitude:string;
     longitude:string;
-    description?:string;
+    description:string;
     image3d?:string;
 }
 
