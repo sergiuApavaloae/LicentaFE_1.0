@@ -17,15 +17,15 @@ export class PinService {
     this.allPins.push({
       pin
     })
-    return this.httpClient.post<Pin>('http://localhost:3000/pin', pin) as Observable<Pin>
+    return this.httpClient.post<Pin>(`${this.address}/pin`, pin) as Observable<Pin>
   }
 
   getPins(){
-    return this.httpClient.get<Pin[]>('http://localhost:3000/pin') as Observable<Pin[]>
+    return this.httpClient.get<Pin[]>(`${this.address}/pin`) as Observable<Pin[]>
   }
 
   getUser(pinId:string){
-    return this.httpClient.get<User>(`http://localhost:3000/pin/${pinId}/username`) as Observable<User>
+    return this.httpClient.get<User>(`${this.address}/pin/${pinId}/username`) as Observable<User>
    
   }
 

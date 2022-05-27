@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ArmodeComponent } from './armode/armode.component';
+import { FeedbackComponent } from './feedback/feedback.component';
 import { HomeComponent } from './home/home.component';
 import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
+  {path:'feedback/:pinId',component:FeedbackComponent},
   {path: 'home', component: HomeComponent},
   {path: 'Armode', component:ArmodeComponent},
   {path:'map', component:MapComponent},                  

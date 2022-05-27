@@ -11,8 +11,8 @@ import { User } from './shared/user';
 export class ApiService {
 
   constructor(private httpClient:HttpClient) { }
-  API_SERVER = "https://urban-app-be.herokuapp.com";
-
+  //API_SERVER = "https://urban-app-be.herokuapp.com";
+  API_SERVER = "http://localhost:3000";
   private _refreshNeeded=new Subject<void>()
   get refreshNeeded(){
     return this._refreshNeeded;
@@ -37,11 +37,11 @@ export class ApiService {
     return this.httpClient.get<User>(`${this.API_SERVER}/user/${email}`)
   }
   public loginUser(user: User):Observable<any>{
-    return this.httpClient.post<any>(`http://localhost:3000/auth/login`, user) as Observable<any>
+    return this.httpClient.post<any>(`${this.API_SERVER}/auth/login`, user) as Observable<any>
   }
 
   public createUser(user: User){
-    return this.httpClient.post<User>(`http://localhost:3000/user`, user)
+    return this.httpClient.post<User>(`${this.API_SERVER}/user`, user)
       .pipe(
       tap(()=>{
         this._refreshNeeded.next();

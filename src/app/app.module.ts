@@ -23,6 +23,7 @@ import { MapComponent } from './map/map.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogReadOnlyComponent } from './dialog-read-only/dialog-read-only.component';
 import { JwtInterceptor } from './jwt.interceptor';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { JwtInterceptor } from './jwt.interceptor';
     ArmodeComponent,
     MapComponent,
     DialogComponent,
-    DialogReadOnlyComponent
+    DialogReadOnlyComponent,
+    FeedbackComponent
     ],
   imports: [
     BrowserModule,
