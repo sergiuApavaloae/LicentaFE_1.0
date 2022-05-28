@@ -26,6 +26,9 @@ b.setAttribute('gps-entity-place', this.string);
 
     document.querySelector("button").addEventListener("click", (e)=> {
       console.log('HEREERERER')
+      // const address='feedback'+'/'+this.pinService.selectedPin.id
+      // console.log(address)
+      // this.router.navigateByUrl(address)
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
           console.log(position);
