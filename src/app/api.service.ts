@@ -4,6 +4,7 @@ import {Article} from "./shared/article";
 import {Observable, pipe, Subject} from "rxjs";
 import {tap} from "rxjs/operators";
 import { User } from './shared/user';
+import { Feedback } from './shared/feedback';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ import { User } from './shared/user';
 export class ApiService {
 
   constructor(private httpClient:HttpClient) { }
-  API_SERVER = "https://urban-app-be.herokuapp.com";
-  //API_SERVER = "http://localhost:3000";
+  //API_SERVER = "https://urban-app-be.herokuapp.com";
+  API_SERVER = "http://localhost:3000";
   private _refreshNeeded=new Subject<void>()
   get refreshNeeded(){
     return this._refreshNeeded;
@@ -33,10 +34,16 @@ export class ApiService {
   //     })
   //   );
   // }
+  public createFeedback(feedback:Feedback){
+    console.log(feedback)
+    return this.httpClient.post<any>(`${this.API_SERVER}/feedback`, feedback) as Observable<any>
+  }
+
   public getUser(email:string){
     return this.httpClient.get<User>(`${this.API_SERVER}/user/${email}`)
   }
   public loginUser(user: User):Observable<any>{
+    console.log(this.API_SERVER)
     return this.httpClient.post<any>(`${this.API_SERVER}/auth/login`, user) as Observable<any>
   }
 
