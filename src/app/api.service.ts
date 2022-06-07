@@ -56,7 +56,13 @@ export class ApiService {
     );
   }
 
+  public getUserInfo(){
+    return this.httpClient.get<any[]>(`${this.API_SERVER}/user/infos`)
+  }
 
+  public getPinsInfo(){
+    return this.httpClient.get<any[]>(`${this.API_SERVER}/pin/infos`)
+  }
 
   // public updateArticles(article: Article){
   //   console.log(article.title);

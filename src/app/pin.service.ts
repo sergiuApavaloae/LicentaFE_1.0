@@ -10,7 +10,8 @@ import { User } from './shared/user';
 export class PinService {
   allPins:any[]=[]
   selectedPin:Pin
-  address=`https://urban-app-be.herokuapp.com`
+  //address=`https://urban-app-be.herokuapp.com`
+  address='http://localhost:3000'
   constructor(private httpClient:HttpClient) { }
 
   addPin(pin:Pin){

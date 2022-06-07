@@ -14,7 +14,9 @@ import {
   MatCardModule,
   MatGridListModule, 
   MatDialog,
-  MatDialogModule} from '@angular/material';
+  MatDialogModule,
+  MatTable,
+  MatTableModule} from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,6 +26,8 @@ import { DialogComponent } from './dialog/dialog.component';
 import { DialogReadOnlyComponent } from './dialog-read-only/dialog-read-only.component';
 import { JwtInterceptor } from './jwt.interceptor';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { UsersTableComponent } from './users-table/users-table.component';
+import { PinTableComponent } from './pin-table/pin-table.component';
 
 
 @NgModule({
@@ -34,7 +38,9 @@ import { FeedbackComponent } from './feedback/feedback.component';
     MapComponent,
     DialogComponent,
     DialogReadOnlyComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    UsersTableComponent,
+    PinTableComponent
     ],
   imports: [
     BrowserModule,
@@ -55,6 +61,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
   HttpClientModule,
   MatDialogModule,
   MatInputModule,
+  MatTableModule,
   FormsModule      
   ],
   providers: [
