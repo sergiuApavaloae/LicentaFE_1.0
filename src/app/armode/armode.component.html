@@ -13,7 +13,8 @@
         arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
         renderer='antialias: true; alpha: true'>
             <a-camera gps-camera rotation-reader></a-camera>
-            <a-box gps-entity-place='' material='color: red' scale='20 20 20'></a-box>
+            <a-box *ngIf="image==='box'" gps-entity-place='' material='color: green' scale='20 20 20'></a-box>
+            <a-sphere *ngIf="image==='sphere'" gps-entity-place='' material='color:yellow' radius="5"></a-sphere>
         </a-scene>
     </body>
 </html>

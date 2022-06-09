@@ -12,8 +12,8 @@ import { Feedback } from './shared/feedback';
 export class ApiService {
 
   constructor(private httpClient:HttpClient) { }
-  //API_SERVER = "https://urban-app-be.herokuapp.com";
-  API_SERVER = "http://localhost:3000";
+  API_SERVER = "https://urban-app-be.herokuapp.com";
+  //API_SERVER = "http://localhost:3000";
   private _refreshNeeded=new Subject<void>()
   get refreshNeeded(){
     return this._refreshNeeded;

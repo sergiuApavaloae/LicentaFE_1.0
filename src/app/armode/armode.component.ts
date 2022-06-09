@@ -13,14 +13,23 @@ export class ArmodeComponent implements OnInit {
     private router:Router) { }
   allPins:{lat:any,lng:any}[]=this.pinService.allPins
   string:string
+  image:string
   ngOnInit() {
     // console.log(this.allPins)
     // if(this.allPins)
     if(this.pinService.selectedPin)
     this.string='latitude:' + this.pinService.selectedPin.latitude+'; ' +'longitude:'+this.pinService.selectedPin.longitude
     //this.string='latitude:' + this.allPins[0].lat.toFixed(10)+'; ' +'longitude:'+this.allPins[0].lng.toFixed(10)
+    var b
+    if(this.pinService.selectedPin.image3d==='Sphere'){
+    this.image='sphere'
+    b = document.querySelector("a-sphere");
+    }
+    else{
+    this.image='box'
+    b = document.querySelector("a-box");
+    }
 
-    var b = document.querySelector("a-box");
 
 b.setAttribute('gps-entity-place', this.string);
 
