@@ -35,9 +35,35 @@ export class MapComponent implements OnInit {
   allPins: Pin[] = [];
   async ngAfterViewInit(): Promise<void> {
     this.initMap();
-    this.getPosition();
+    await this.getPosition();
+    console.log(this.latitude,this.longitude)
+    // this.pinService.getPins(this.latitude,this.longitude).subscribe((result) => {
+    //   this.allPins = result;
+    //   this.allPins.forEach((pin) => {
+    //     var marker = new google.maps.Marker({
+    //       position: new google.maps.LatLng(
+    //         parseFloat(pin.latitude),
+    //         parseFloat(pin.longitude)
+    //       ),
+    //       map: this.map,
+    //       icon: pin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"}
+    //       :pin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"}:
+    //       { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"
 
-    this.pinService.getPins().subscribe((result) => {
+    //     }
+    //     });
+    //     marker.addListener("click", () => {
+    //       console.log(pin)
+    //       this.map.setZoom(18);
+    //       this.map.setCenter(marker.getPosition() as google.maps.LatLng);
+    //       this.openReadOnlyDialog(pin);
+    //     });
+    //   });
+    // });
+    this.initMap();
+  }
+  getPins(){
+    this.pinService.getPins(this.latitude,this.longitude).subscribe((result) => {
       this.allPins = result;
       this.allPins.forEach((pin) => {
         var marker = new google.maps.Marker({
@@ -46,6 +72,11 @@ export class MapComponent implements OnInit {
             parseFloat(pin.longitude)
           ),
           map: this.map,
+          icon: pin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"}
+          :pin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"}:
+          { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"
+
+        }
         });
         marker.addListener("click", () => {
           console.log(pin)
@@ -55,7 +86,6 @@ export class MapComponent implements OnInit {
         });
       });
     });
-    this.initMap();
   }
   getPin(latitude: string, longitude: string) {
     for (const pin of this.allPins) {
@@ -96,7 +126,9 @@ export class MapComponent implements OnInit {
               parseFloat(this.actualPin.longitude)
             ),
             map: this.map,
-            icon: { url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" }
+            icon: this.actualPin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/grn-pushpin.png"}
+                      :this.actualPin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png"}:
+                      { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png"}
           });
           this.allPins.push(this.actualPin);
             this.actualMarker.addListener("click", () => {
@@ -122,6 +154,7 @@ export class MapComponent implements OnInit {
           this.latitude,
           this.longitude
         );
+        this.getPins()
         this.initMap();
       });
     }
@@ -135,7 +168,7 @@ export class MapComponent implements OnInit {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(this.latitude, this.longitude),
         map: this.map,
-        icon: { url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" },
+        icon: { url: "https://maps.gstatic.com/mapfiles/ms2/micons/man.png" },
       });
     }
 
@@ -144,6 +177,9 @@ export class MapComponent implements OnInit {
       this.actualPin.longitude = mapsMouseEvent.latLng.toJSON().lng.toString();
       this.openDialog()
   })
+}
+back(): void {
+  window.history.back();
 }
 
   async openReadOnlyDialog(pin:Pin): Promise<void> {
@@ -162,7 +198,7 @@ export class MapComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.destination){
+      if (result && result.destination==='yes'){
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(
             parseFloat(pin.latitude),

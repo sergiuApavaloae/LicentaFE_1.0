@@ -21,8 +21,9 @@ export class PinService {
     return this.httpClient.post<Pin>(`${this.address}/pin`, pin) as Observable<Pin>
   }
 
-  getPins(){
-    return this.httpClient.get<Pin[]>(`${this.address}/pin`) as Observable<Pin[]>
+  getPins(latitude:number,longitude:number){
+   
+    return this.httpClient.get<Pin[]>(`${this.address}/pin/${latitude}/${longitude}`) as Observable<Pin[]>
   }
 
   getUser(pinId:string){

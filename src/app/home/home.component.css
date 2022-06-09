@@ -28,12 +28,6 @@ mat-card-subtitle{
   text-align: center;
 
 }
-.titlu{
-  position: center;
-  font-size: 30px;
-  background-color:darkslategrey;
-
-}
 .center {
   position: absolute;
   top: 0%;
@@ -46,6 +40,42 @@ mat-card-subtitle{
   position: absolute;
   top: 10%;
 }
+.form-group-col-5{
+  position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+text-align: center;
+top:30%
+}
+.authButton{
+  position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+text-align: center;
+top:20%
+}
+.authLogin{
+  position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 0;
+right: 0;
+text-align: center;
+top:70%
+}
+.functionalities{
+  position: absolute;
+margin-left: auto;
+margin-right: auto;
+left: 5%;
+right: 5%;
+text-align: center;
+top:20%
+}
 .auth{
   position: relative;
   top:0%;
@@ -55,4 +85,8 @@ mat-card-subtitle{
   width: 80%;
   border: 3px solid green;
   padding: 10px;
+}
+
+body{
+  background-color:wheat
 }

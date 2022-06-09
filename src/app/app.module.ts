@@ -16,7 +16,9 @@ import {
   MatDialog,
   MatDialogModule,
   MatTable,
-  MatTableModule} from '@angular/material';
+  MatTableModule,
+  MatSelect,
+  MatSelectModule} from '@angular/material';
 import { HomeComponent } from './home/home.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -50,6 +52,7 @@ import { PinTableComponent } from './pin-table/pin-table.component';
   AppRoutingModule,
   BrowserAnimationsModule,
   MatInputModule,
+  MatSelectModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,

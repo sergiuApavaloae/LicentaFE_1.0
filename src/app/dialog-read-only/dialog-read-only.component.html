@@ -4,7 +4,10 @@
   <p *ngIf="data.userName">This is {{data.userName}}'s report </p>
   <mat-form-field appearance="fill">
     <mat-label>Add as destination?</mat-label>
-    <input matInput [(ngModel)]="data.destination">
+    <mat-select [(ngModel)]="data.destination">
+      <mat-option value="yes">Yes,sure</mat-option>
+      <mat-option value="no">No,not yet</mat-option>
+    </mat-select>
    
   </mat-form-field>
   <button mat-button (click)="onNoClick()">Exit</button>

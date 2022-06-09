@@ -26,11 +26,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required]
+      name: ['', Validators.required,Validators.maxLength(15)],
+      email: ['', [Validators.required,Validators.email]],
+      password: ['', [Validators.required,Validators.minLength(5)]]
     }
   );
+  this.loggedUser=localStorage.getItem('user')
   }
   showAuthentification():void{
     this.wantAuth=!this.wantAuth
@@ -47,15 +48,19 @@ export class HomeComponent implements OnInit {
 
   }
   loginError:boolean=false;
+  loggedUser=''
   async loginUser() {
     this.apiService.loginUser({
       email: this.form.value.email,
       password:this.form.value.password
     }).subscribe(res => {
       console.log(res)
+      this.loggedUser=res.name
+      console.log(this.loggedUser)
       localStorage.setItem('userId',res.userId.toString());
       localStorage.setItem('token',res.access_token);
-      this.map()
+      localStorage.setItem('user',res.name)
+      //this.map()
     },err=>{
       this.loginError=true;
       console.log(err)
