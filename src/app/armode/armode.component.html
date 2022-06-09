@@ -4,17 +4,19 @@
     </head>
     <body>
         <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
-            <button>
-                HIDE OBJECTS
-            </button>
+            <mat-raised-button #button color="accent">
+               Discover
+            </mat-raised-button>
+            <mat-flat-button *ngIf="error" color="warn">You are too far</mat-flat-button>
         </div>
     <a-scene
         vr-mode-ui="enabled: false"
         arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'
         renderer='antialias: true; alpha: true'>
             <a-camera gps-camera rotation-reader></a-camera>
-            <a-box *ngIf="image==='box'" gps-entity-place='' material='color: green' scale='20 20 20'></a-box>
-            <a-sphere *ngIf="image==='sphere'" gps-entity-place='' material='color:yellow' radius="5"></a-sphere>
+            <a-box  gps-entity-place='' material='color: green' scale='10 10 10'></a-box>
+            <a-sphere  gps-entity-place='' material='color:red' radius="5"></a-sphere>
+            <a-dodecahedron gps-entity-place='' material='color:blue'  radius="5"></a-dodecahedron>
         </a-scene>
     </body>
 </html>

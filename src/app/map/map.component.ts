@@ -7,6 +7,7 @@ import { DialogComponent } from "../dialog/dialog.component";
 import { Pin } from "../shared/pin";
 import { DialogReadOnlyComponent } from "../dialog-read-only/dialog-read-only.component";
 import { first } from "rxjs/operators";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-map",
@@ -25,15 +26,33 @@ export class MapComponent implements OnInit {
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   };
 
-  constructor(private pinService: PinService, public dialog: MatDialog) {}
+  constructor(private pinService: PinService, public dialog: MatDialog,      private router:Router,
+    ) {}
 
   @ViewChild("map", { static: false }) mapElement: any;
   map: google.maps.Map;
 
   actualPin: Pin = new Pin();
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
   allPins: Pin[] = [];
+  interval
+  ngOnDestroy(){
+    clearInterval(this.interval);
+
+  }
   async ngAfterViewInit(): Promise<void> {
+    // this.pinService.refreshNeeded
+    //   .subscribe((pinId)=>{
+    //     this.addPinToMap(pinId)
+    //     }
+    //   );
+
+      this.interval=setInterval(() => {
+        this.getPins()
+      }, 25 * 1000);
+
     this.initMap();
     await this.getPosition();
     console.log(this.latitude,this.longitude)
@@ -62,6 +81,31 @@ export class MapComponent implements OnInit {
     // });
     this.initMap();
   }
+  addPinToMap(pinId){
+    console.log(pinId)
+    this.pinService.getPin(pinId).subscribe((result) => {
+      console.log(result)
+      const pin=result
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(
+            parseFloat(pin.latitude),
+            parseFloat(pin.longitude)
+          ),
+          map: this.map,
+          icon: pin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"}
+          :pin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"}:
+          { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"
+
+        }
+        });
+        marker.addListener("click", () => {
+          console.log(pin)
+          this.map.setZoom(18);
+          this.map.setCenter(marker.getPosition() as google.maps.LatLng);
+          this.openReadOnlyDialog(pin);
+        });
+      });
+    }
   getPins(){
     this.pinService.getPins(this.latitude,this.longitude).subscribe((result) => {
       this.allPins = result;
@@ -179,6 +223,7 @@ export class MapComponent implements OnInit {
   })
 }
 back(): void {
+  clearInterval(this.interval);
   window.history.back();
 }
 
@@ -211,4 +256,8 @@ back(): void {
       }
     });
   }
+  Ar():void{
+    clearInterval(this.interval);
+    this.router.navigateByUrl('Armode');
+}
 }

@@ -32,18 +32,20 @@ export class HomeComponent implements OnInit {
     }
   );
   this.loggedUser=localStorage.getItem('user')
+  //console.log(this.loggedUser)
   }
   showAuthentification():void{
     this.wantAuth=!this.wantAuth
   }
+  needLogin:string
   async addUser() {
     this.apiService.createUser({
       name: this.form.value.name,
       email: this.form.value.email,
       password:this.form.value.password
     }).subscribe(res => {
-      localStorage.setItem('userId',res.id.toString());
-      this.map()
+      this.needLogin='auth'
+     
     });
 
   }
@@ -79,6 +81,12 @@ export class HomeComponent implements OnInit {
   map():void{
 
     this.router.navigateByUrl('map');
+}
+logOut(){
+  this.loggedUser=""
+  localStorage.setItem('userId',"");
+  localStorage.setItem('token',"");
+  localStorage.setItem('user',"")
 }
 
 }
