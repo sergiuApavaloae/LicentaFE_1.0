@@ -33,7 +33,9 @@ export class FeedbackComponent implements OnInit {
       text:this.form.value.feedback,
       rating:this.form.value.rating
     }
-    this.apiService.createFeedback(feedback).subscribe(feedback=>{})
+    this.apiService.createFeedback(feedback).subscribe(feedback=>{
+      window.history.back();
+    })
   }
 
 }

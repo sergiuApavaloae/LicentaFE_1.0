@@ -30,6 +30,7 @@ import { JwtInterceptor } from './jwt.interceptor';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UsersTableComponent } from './users-table/users-table.component';
 import { PinTableComponent } from './pin-table/pin-table.component';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { PinTableComponent } from './pin-table/pin-table.component';
     DialogReadOnlyComponent,
     FeedbackComponent,
     UsersTableComponent,
-    PinTableComponent
+    PinTableComponent,
+    UserInfoComponent
     ],
   imports: [
     BrowserModule,

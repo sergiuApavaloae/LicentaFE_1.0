@@ -1,8 +1,8 @@
 <head>
-  <title>Sergiu's Blog</title>
+  <title>Report app</title>
 </head>
 <body>
-<h1 class="center">Welcome to Sergiu's Urban Report App v2.1</h1>
+<h1 class="center">Y(our) Urban Reports App</h1>
 
 <div *ngIf="!loggedUser" class="form-group-col-5" >
   <button (click)="showAuthentification()" mat-raised-button color="primary">Authenticate/Log in</button>
@@ -29,9 +29,23 @@
 </div>
 <div *ngIf="loggedUser">
   <div class="functionalities">
-    <p>Hello {{loggedUser}}.You can add a report on map/see other report or go to Ar Mode </p>
-  <button (click)="Ar()" mat-raised-button color="primary">Go to AR</button>
+    <mat-card><mat-card-content>
+      <p>Hello {{loggedUser}} !<br>This is your main dashboard </p>
+    </mat-card-content>
+  </mat-card>
   <button (click)="map()" mat-raised-button color="primary">Go to map</button>
+  <br>
+  <br>
+  <button (click)="accountDetails()" mat-raised-button color="primary">Account details</button>
+  <div *ngIf="account">
+  <br>
+  <br>
+  <app-user-info *ngIf="account">
+
+  </app-user-info>
+  </div>
+  <br>
+  <br>
   <button (click)="logOut()" mat-raised-button color="primary">Log out</button>
   </div>
 </div>

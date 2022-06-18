@@ -82,6 +82,10 @@ export class HomeComponent implements OnInit {
 
     this.router.navigateByUrl('map');
 }
+account=false
+accountDetails():void{
+  this.account=!this.account
+}
 logOut(){
   this.loggedUser=""
   localStorage.setItem('userId',"");

@@ -42,13 +42,15 @@ b.setAttribute('gps-entity-place', this.string);
 
     document.querySelector("mat-raised-button").addEventListener("click", (e)=> {
       console.log('SELECTAT')
+      const pin=this.pinService.selectedPin
+      this.router.navigateByUrl(`feedback/${pin.id}`)
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
           console.log("Position");
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           const pin=this.pinService.selectedPin
-          if(this.getDistanceFromLatLonInKm(latitude,longitude,pin.latitude,pin.longitude)<1){
+          if(this.getDistanceFromLatLonInKm(latitude,longitude,pin.latitude,pin.longitude)<10){
           console.log("aproape")
           const address='feedback'+'/'+pin.id
           this.router.navigateByUrl(`feedback/${pin.id}`)

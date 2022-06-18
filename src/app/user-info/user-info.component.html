@@ -1,0 +1,10 @@
+<head>
+    <title>Sergiu's Blog</title>
+  </head>
+  <body>
+    <mat-card>
+    <mat-card-content *ngIf="userInfo">Your total score is:{{userInfo.scor}} points <br>
+        You have {{userInfo.numberReports}} reports done <br>
+        You discovered {{userInfo.numberFeedbacks}} reports of other users</mat-card-content>
+    </mat-card>
+  </body>

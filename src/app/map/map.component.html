@@ -1,6 +1,7 @@
 <div #map style="width:100%;height:100%"></div>
 <div style='position: fixed; bottom: 10px; width:100%; text-align: center; z-index: 1;'>
     <button (click)="back()" mat-raised-button color="primary">Back2</button>
-    <button (click)="Ar()"mat-raised-button color="accent">Go to AR</button>
+    <button (click)="Ar()"mat-raised-button color="accent" [disabled]="!canGoToAR">Go to AR</button>
+    <button (click)="locateMe()" mat-raised-button color="primary">LocateMe</button>
 
 </div>

@@ -2,18 +2,16 @@
     <title>Sergiu's Blog</title>
   </head>
   <body>
-  <h1 class="center">Please let a feedback</h1>
-  <div class="form-group col-5" >
+    <div class="form-group-col-5"> 
+  <h1>Please rate this report </h1>
+  <div >
     <form [formGroup]="form">
-      <div >
-      <label>Feedback</label>
-      <input type="text" formControlName="feedback" class="form-control">
-      </div>
-      <div>
-      <label>Rating</label>
-      <input type="text" formControlName="rating" class="form-control">
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Your rating</mat-label>
+        <input matInput placeholder="1-10" type="number" formControlName="rating">
+      </mat-form-field>
     </form>
   </div>
   <button (click)="addFeedback()" mat-stroked-button color="primary">Add this feedback </button>
+    </div>
 </body>
