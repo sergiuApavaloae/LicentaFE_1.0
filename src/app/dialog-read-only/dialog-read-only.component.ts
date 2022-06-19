@@ -5,7 +5,9 @@ import { PinService } from '../pin.service';
 
 export interface DialogReadOnly {
   destination: string;
-  userName:string
+  userName:string;
+  pinId:string;
+  deleted:boolean
 }
 
 @Component({
@@ -23,5 +25,10 @@ export class DialogReadOnlyComponent{
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+  onDeleteReport():void{
+    this.pinService.deletePin(this.data.pinId).subscribe(()=>{
+      this.data.deleted=true
+      this.dialogRef.close();})
   }
 }

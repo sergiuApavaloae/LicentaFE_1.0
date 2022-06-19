@@ -15,103 +15,62 @@ import { Router } from "@angular/router";
   styleUrls: ["./map.component.css"],
 })
 export class MapComponent implements OnInit {
+ 
+  public constructor(
+    private pinService: PinService,
+    public dialog: MatDialog,
+    private router: Router
+  ) {}  
   latitude: number;
   longitude: number;
   zoom: number;
-  actualMarker:any
-
+  actualMarker: any;
   mapProperties = {
     center: new google.maps.LatLng(44.42, 26.1),
     zoom: 17,
     mapTypeId: google.maps.MapTypeId.ROADMAP,
   };
-
-  constructor(private pinService: PinService, public dialog: MatDialog,      private router:Router,
-    ) {}
-
-  @ViewChild("map", { static: false }) mapElement: any;
+  @ViewChild("map", { static: false })
+  mapElement: any;
   map: google.maps.Map;
   actualPin: Pin = new Pin();
-  ngOnInit(): void {
-
-  }
   allPins: Pin[] = [];
-  interval
-  ngOnDestroy(){
-    clearInterval(this.interval);
-
+  interval;
+  ngOnInit(): void {}
+  ngOnDestroy() {
   }
   async ngAfterViewInit(): Promise<void> {
-      this.interval=setInterval(() => {
-        this.getPins()
-      }, 25 * 1000);
-
+    this.interval = setInterval(() => {
+      this.getPins();
+    }, 25 * 1000);
     this.initMap();
-    await this.getPosition();
-    this.initMap();
+    this.getPositionAndPins();
+    
   }
-  addPinToMap(pinId){
-    this.pinService.getPin(pinId).subscribe((result) => {
-      const pin=result
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(
-            parseFloat(pin.latitude),
-            parseFloat(pin.longitude)
-          ),
-          map: this.map,
-          icon: pin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"}
-          :pin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"}:
-          { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"
-
-        }
-        });
-        marker.addListener("click", () => {
-          console.log(pin)
-          this.map.setZoom(18);
-          this.map.setCenter(marker.getPosition() as google.maps.LatLng);
-          this.openReadOnlyDialog(pin);
+ 
+  getPins() {
+    this.pinService
+      .getPins(this.latitude, this.longitude)
+      .subscribe((result) => {
+        this.allPins = result;
+        this.allPins.forEach((pin) => {
+          this.addPinToMap(pin)
         });
       });
-    }
-  getPins(){
-    this.pinService.getPins(this.latitude,this.longitude).subscribe((result) => {
-      this.allPins = result;
-      this.allPins.forEach((pin) => {
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(
-            parseFloat(pin.latitude),
-            parseFloat(pin.longitude)
-          ),
-          map: this.map,
-          icon: pin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"}
-          :pin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"}:
-          { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png"
-
-        }
-        });
-        marker.addListener("click", () => {
-          console.log(pin)
-          this.map.setZoom(18);
-          this.map.setCenter(marker.getPosition() as google.maps.LatLng);
-          this.openReadOnlyDialog(pin);
-        });
-      });
-    });
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: "350px",
       data: {
-        description:""
+        description: "",
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
       if (result) {
-        if(localStorage.getItem('userId')){
-          this.actualPin.userId=localStorage.getItem('userId')
+        if (localStorage.getItem("userId")) {
+          this.actualPin.userId = localStorage.getItem("userId");
         }
         this.actualPin.description = result.description;
         this.actualPin.image3d = result.image3d;
@@ -123,23 +82,33 @@ export class MapComponent implements OnInit {
               parseFloat(this.actualPin.longitude)
             ),
             map: this.map,
-            icon: this.actualPin.image3d=='Cube'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/grn-pushpin.png"}
-                      :this.actualPin.image3d=='Sphere'?{ url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-pushpin.png"}:
-                      { url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-pushpin.png"}
+            icon:
+              this.actualPin.image3d == "Cube"
+                ? {
+                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png",
+                  }
+                : this.actualPin.image3d == "Sphere"
+                ? {
+                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png",
+                  }
+                : {
+                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png",
+                  },
           });
           this.allPins.push(this.actualPin);
-            this.actualMarker.addListener("click", () => {
-              this.map.setZoom(18);
-              this.map.setCenter(this.actualMarker.getPosition() as google.maps.LatLng);
-              this.openReadOnlyDialog(result);
-            });
+          this.actualMarker.addListener("click", () => {
+            this.map.setZoom(18);
+            this.map.setCenter(
+              this.actualMarker.getPosition() as google.maps.LatLng
+            );
+            this.openReadOnlyDialog(result);
           });
-        }
-        
-      })
-}
-  
-  async getPosition(): Promise<void> {
+        });
+      }
+    });
+  }
+
+  getPositionAndPins(): void {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         console.log(position);
@@ -151,7 +120,7 @@ export class MapComponent implements OnInit {
           this.latitude,
           this.longitude
         );
-        this.getPins()
+        this.getPins();
         this.initMap();
       });
     }
@@ -172,48 +141,78 @@ export class MapComponent implements OnInit {
     this.map.addListener("click", (mapsMouseEvent) => {
       this.actualPin.latitude = mapsMouseEvent.latLng.toJSON().lat.toString();
       this.actualPin.longitude = mapsMouseEvent.latLng.toJSON().lng.toString();
-      this.openDialog()
-  })
+      this.openDialog();
+    });
+  }
+  back(): void {
+    clearInterval(this.interval);
+    window.history.back();
+  }
+  canGoToAR = false;
+
+  addPinToMap(pin:Pin) {
+    var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(
+        parseFloat(pin.latitude),
+        parseFloat(pin.longitude)
+      ),
+      map: this.map,
+      icon:
+        pin.image3d == "Cube"
+          ? {
+              url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png",
+            }
+          : pin.image3d == "Sphere"
+          ? {
+              url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png",
+            }
+          : {
+              url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png",
+            },
+    });
+    marker.addListener("click", () => {
+      console.log(pin);
+      this.map.setZoom(18);
+      this.map.setCenter(marker.getPosition() as google.maps.LatLng);
+      this.openReadOnlyDialog(pin);
+    });
 }
-back(): void {
-  clearInterval(this.interval);
-  window.history.back();
-}
-canGoToAR=false
-  async openReadOnlyDialog(pin:Pin): Promise<void> {
-    let username
-    const user=await this.pinService.getUser(pin.id.toString()).pipe(first()).toPromise();
-    console.log(username)
+
+  async openReadOnlyDialog(pin: Pin): Promise<void> {
+    let username;
+    const user = await this.pinService
+      .getUser(pin.id.toString())
+      .pipe(first())
+      .toPromise();
     const dialogRef = this.dialog.open(DialogReadOnlyComponent, {
       width: "350px",
       data: {
-        description: pin.description
-          ? pin.description
-          : "",
+        description: pin.description ? pin.description : "",
         image3d: pin.image3d ? pin.image3d : "",
-        userName:user.name
+        userName: user.name,
+        pinId:pin.id
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result && result.destination==='yes'){
+      if (result && result.destination === "yes") {
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(
             parseFloat(pin.latitude),
             parseFloat(pin.longitude)
           ),
           map: this.map,
-          icon:"https://maps.google.com/mapfiles/kml/shapes/library_maps.png"
+          icon: "https://maps.google.com/mapfiles/kml/shapes/library_maps.png",
         });
         this.pinService.setArDestination(pin);
-        this.canGoToAR=true
+        this.canGoToAR = true;
       }
     });
   }
-  Ar():void{
+  Ar(): void {
     clearInterval(this.interval);
-    this.router.navigateByUrl('Armode');
-}
-locateMe():void{
-  this.getPosition()
-}
+    this.router.navigateByUrl("Armode");
+  }
+  locateMe(): void {
+    this.getPositionAndPins();
+  }
 }
