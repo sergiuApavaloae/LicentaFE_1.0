@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PinService } from '../pin.service';
+import { ReportType } from '../shared/pin';
 
 @Component({
   selector: 'app-armode',
@@ -15,43 +16,29 @@ export class ArmodeComponent implements OnInit {
   string:string
   image:string
   ngOnInit() {
-    // console.log(this.allPins)
-    // if(this.allPins)
     if(this.pinService.selectedPin)
     this.string='latitude:' + this.pinService.selectedPin.latitude+'; ' +'longitude:'+this.pinService.selectedPin.longitude
-    //this.string='latitude:' + this.allPins[0].lat.toFixed(10)+'; ' +'longitude:'+this.allPins[0].lng.toFixed(10)
-    var b
-    if(this.pinService.selectedPin.image3d==='Sphere')
-    this.image='sphere'
-
-    else
-      if(this.pinService.selectedPin.image3d==='Cone')
-        {this.image='cone'; console.log('con')}
-      else
-        this.image='box'
-
-    if(this.image=='box')
-     b = document.querySelector("a-box");
-    if(this.image=='cone')
-    b=document.querySelector("a-dodecahedron")
-    if(this.image=='sphere')
+    var type=this.pinService.selectedPin.type
+    let b:any
+    if(type==ReportType.Animals || type==ReportType.Parks || type==ReportType.Other)
+    b = document.querySelector("a-box");
+    if(type==ReportType.Streets || type ==ReportType.Traffic || type==ReportType.Salubrity)
     b=document.querySelector("a-sphere")
+    if(type==ReportType.Beautiful)
+    b=document.querySelector("a-dodecahedron")
 
-
-b.setAttribute('gps-entity-place', this.string);
+    b.setAttribute('material',this.getColor(type))
+    b.setAttribute('gps-entity-place', this.string);
 
     document.querySelector("mat-raised-button").addEventListener("click", (e)=> {
-      console.log('SELECTAT')
       const pin=this.pinService.selectedPin
       this.router.navigateByUrl(`feedback/${pin.id}`)
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition((position) => {
-          console.log("Position");
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
           const pin=this.pinService.selectedPin
           if(this.getDistanceFromLatLonInKm(latitude,longitude,pin.latitude,pin.longitude)<10){
-          console.log("aproape")
           const address='feedback'+'/'+pin.id
           this.router.navigateByUrl(`feedback/${pin.id}`)
           }
@@ -62,6 +49,22 @@ b.setAttribute('gps-entity-place', this.string);
 
 
     })
+  }
+  getColor(type:string){
+    if(type==ReportType.Animals)
+      return 'color: pink'
+    if(type==ReportType.Beautiful)
+      return 'color: yellow'
+    if(type==ReportType.Traffic)
+      return 'color: blue'
+    if(type==ReportType.Streets)
+      return 'color: red'
+    if(type==ReportType.Parks)
+      return 'color: green'
+    if(type==ReportType.Salubrity)
+      return 'color: purple'
+    if(type==ReportType.Other)
+      return 'color: blue'
   }
   error:string
   getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {

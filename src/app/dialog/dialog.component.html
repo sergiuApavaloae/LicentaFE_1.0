@@ -5,12 +5,16 @@
     <mat-label>Description</mat-label>
     <input matInput [(ngModel)]="data.description">
   </mat-form-field>
-  <p>Please select an image</p>
+  <p>Please select the type/category of the report</p>
   <mat-form-field>
-    <mat-select [(ngModel)]="data.image3d">
-      <mat-option value="Cube">Green Cube</mat-option>
-      <mat-option value="Sphere">Red Sphere</mat-option>
-      <mat-option value="Cone">Blue Cone</mat-option>
+    <mat-select [(ngModel)]="data.type">
+      <mat-option value="Streets">{{Streets}}</mat-option>
+      <mat-option value="Salubrity">{{Salubrity}}</mat-option>
+      <mat-option value="Parks">{{Parks}}</mat-option>
+      <mat-option value="Traffic">{{Traffic}}</mat-option>
+      <mat-option value="Beautiful">{{Beautiful}}</mat-option>
+      <mat-option value="Animals">{{Animals}}</mat-option>
+      <mat-option value="Other">{{Other}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>

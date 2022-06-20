@@ -4,7 +4,7 @@ import { ViewChild } from "@angular/core";
 import { PinService } from "../pin.service";
 import { MatDialog } from "@angular/material";
 import { DialogComponent } from "../dialog/dialog.component";
-import { Pin } from "../shared/pin";
+import { Pin, ReportType } from "../shared/pin";
 import { DialogReadOnlyComponent } from "../dialog-read-only/dialog-read-only.component";
 import { first } from "rxjs/operators";
 import { Router } from "@angular/router";
@@ -73,36 +73,11 @@ export class MapComponent implements OnInit {
           this.actualPin.userId = localStorage.getItem("userId");
         }
         this.actualPin.description = result.description;
-        this.actualPin.image3d = result.image3d;
+        this.actualPin.type=result.type
 
-        this.pinService.addPin(this.actualPin).subscribe((result) => {
-          this.actualMarker = new google.maps.Marker({
-            position: new google.maps.LatLng(
-              parseFloat(this.actualPin.latitude),
-              parseFloat(this.actualPin.longitude)
-            ),
-            map: this.map,
-            icon:
-              this.actualPin.image3d == "Cube"
-                ? {
-                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png",
-                  }
-                : this.actualPin.image3d == "Sphere"
-                ? {
-                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png",
-                  }
-                : {
-                    url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png",
-                  },
-          });
+        this.pinService.addPin(this.actualPin).subscribe(() => {
           this.allPins.push(this.actualPin);
-          this.actualMarker.addListener("click", () => {
-            this.map.setZoom(18);
-            this.map.setCenter(
-              this.actualMarker.getPosition() as google.maps.LatLng
-            );
-            this.openReadOnlyDialog(result);
-          });
+          this.addPinToMap(this.actualPin)
         });
       }
     });
@@ -158,17 +133,29 @@ export class MapComponent implements OnInit {
       ),
       map: this.map,
       icon:
-        pin.image3d == "Cube"
-          ? {
-              url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png",
-            }
-          : pin.image3d == "Sphere"
-          ? {
-              url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png",
-            }
-          : {
-              url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png",
-            },
+      pin.type ===ReportType.Animals
+      ? {
+          url: "https://maps.gstatic.com/mapfiles/ms2/micons/pink-dot.png",
+        }
+      : pin.type ===ReportType.Beautiful
+      ? {
+          url: "https://maps.gstatic.com/mapfiles/ms2/micons/yellow-dot.png",
+        }
+      : pin.type ===ReportType.Traffic? {
+          url: "https://maps.gstatic.com/mapfiles/ms2/micons/blue-dot.png",
+        }
+      :pin.type ===ReportType.Parks?{
+        url: "https://maps.gstatic.com/mapfiles/ms2/micons/green-dot.png"
+      }:
+      pin.type ===ReportType.Salubrity?{
+        url: "https://maps.gstatic.com/mapfiles/ms2/micons/purple-dot.png"
+      }:
+      pin.type===ReportType.Streets?{
+        url: "https://maps.gstatic.com/mapfiles/ms2/micons/red-dot.png"
+      }:
+      {
+        url: "https://maps.gstatic.com/mapfiles/ms2/micons/ltblue-dot.png"
+      }
     });
     marker.addListener("click", () => {
       console.log(pin);
@@ -203,6 +190,7 @@ export class MapComponent implements OnInit {
           map: this.map,
           icon: "https://maps.google.com/mapfiles/kml/shapes/library_maps.png",
         });
+        console.log(pin)
         this.pinService.setArDestination(pin);
         this.canGoToAR = true;
       }

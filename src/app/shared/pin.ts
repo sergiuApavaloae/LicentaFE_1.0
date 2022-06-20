@@ -9,6 +9,15 @@ export interface Pin{
     image3d?:string;
 }
 
+export enum ReportType{
+    Streets="Streets",
+    Salubrity="Salubrity",
+    Parks="Parks",
+    Traffic="Traffic",
+    Beautiful="Beautiful",
+    Animals="Animals",
+    Other="Other"
+}
 export class Pin implements Pin{
     constructor(){
 

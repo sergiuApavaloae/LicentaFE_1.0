@@ -4,6 +4,14 @@
   <body>
     <div class="form-group-col-5"> 
   <h1>Please rate this report </h1>
+  <div>
+    <mat-card>
+      <mat-card-content *ngIf="pinInfo">This report has {{pinInfo.rating}} points <br>
+          There are {{pinInfo.numberOfFeedbacks}} feedbacks from other users <br>
+          The average rating for this report is {{pinInfo.average}}
+        </mat-card-content>
+      </mat-card>
+  </div>
   <div >
     <form [formGroup]="form">
       <mat-form-field appearance="fill">

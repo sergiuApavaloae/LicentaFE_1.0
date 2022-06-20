@@ -11,7 +11,7 @@ import { Feedback } from './shared/feedback';
 })
 export class ApiService {
 
-  constructor(private httpClient:HttpClient) {   this.API_SERVER = "http://localhost:3000";
+  constructor(private httpClient:HttpClient) {   this.API_SERVER = "https://urban-app-be.herokuapp.com";
 }
   //API_SERVER = "https://urban-app-be.herokuapp.com";
   API_SERVER = "";
@@ -22,13 +22,9 @@ export class ApiService {
   
   Url=''
   public test(){
-    console.log('TEst')
-    this.API_SERVER = "http://localhost:3000";
-    console.log(this.API_SERVER)
     return this.httpClient.get<any>(`${this.API_SERVER}/pin/test`) as Observable<any>
   }
   public createFeedback(feedback:Feedback){
-    console.log(feedback)
     return this.httpClient.post<any>(`${this.API_SERVER}/feedback`, feedback) as Observable<any>
   }
 
