@@ -28,26 +28,14 @@ export class UsersTableComponent implements OnInit {
     private apiService:ApiService) {}
     dataSource:any
     ngOnInit(){
-       this.apiService.getUserInfo().subscribe(res=>{
-         this.ELEMENT_DATA=res
+       this.apiService.getUserInfo().subscribe(results=>{
+         this.ELEMENT_DATA=results
          this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
          this.dataSource.sort = this.sort;
        })
    }
-
   @ViewChild(MatSort,{static: true}) sort: MatSort;
-
-  // ngAfterViewInit() {
-  //   this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-  //   this.dataSource.sort = this.sort;
-  // }
-
-  /** Announce the change in sort state for assistive technology. */
   announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {

@@ -1,16 +1,21 @@
-<h1 mat-dialog-title>This is the Pin description</h1>
+<h2 mat-dialog-title>You just selected a new report</h2>
+<h1 mat-dialog-title *ngIf="data.userName">This is {{data.userName}}'s report:</h1>
 <div mat-dialog-content>
   <p>{{data.description}}</p>
-  <p *ngIf="data.userName">This is {{data.userName}}'s report </p>
   <mat-form-field appearance="fill">
-    <mat-label>Add as destination?</mat-label>
+    <mat-label>AR mode destination?</mat-label>
     <mat-select [(ngModel)]="data.destination">
       <mat-option value="yes">Yes,sure</mat-option>
       <mat-option value="no">No,not yet</mat-option>
     </mat-select>
-   
+  </mat-form-field>
+  <mat-form-field *ngIf="showDelete">
+    <mat-label>Report solved ?</mat-label>
+    <mat-select [(ngModel)]="data.deleted">
+      <mat-option value="yes">Yes,delete it</mat-option>
+      <mat-option value="no">No</mat-option>
+    </mat-select>
   </mat-form-field>
   <button mat-button (click)="onNoClick()">Exit</button>
-  <button mat-button (click)="onDeleteReport()">Delete</button>
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
 </div>

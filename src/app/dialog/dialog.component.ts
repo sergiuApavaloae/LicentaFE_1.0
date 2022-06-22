@@ -19,8 +19,9 @@ export class DialogComponent  {
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
   ) {
-    
+    this.userName=localStorage.getItem('user')
   }
+  userName:string
   Streets=ReportType.Streets
   Salubrity=ReportType.Salubrity
   Parks=ReportType.Parks

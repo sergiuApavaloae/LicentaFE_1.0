@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
     });
     this.loggedUser = localStorage.getItem("user");
     this.admin = false;
-    if (localStorage.getItem("userId") === "13") this.admin = true;
+    if (localStorage.getItem("user") === "admin") this.admin = true;
   }
   showAuthentification(): void {
     this.wantAuth = !this.wantAuth;
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
           localStorage.setItem("userId", res.userId.toString());
           localStorage.setItem("token", res.access_token);
           localStorage.setItem("user", res.name);
-          if (res.userId === 13) {
+          if (res.user === 'admin') {
             this.admin = true;
           }
         },
@@ -81,6 +81,15 @@ export class HomeComponent implements OnInit {
   map(): void {
     this.router.navigateByUrl("map");
   }
+
+  goToReports(): void {
+    this.router.navigateByUrl("pins");
+  }
+
+  goToUsers(): void {
+    this.router.navigateByUrl("tabel");
+  }
+
   test(): void {
     this.apiService.test().subscribe(() => {});
   }

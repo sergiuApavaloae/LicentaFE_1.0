@@ -80,17 +80,16 @@ export class MapComponent implements OnInit {
           this.addPinToMap(this.actualPin)
         });
       }
+      this.getPins()
     });
   }
 
   getPositionAndPins(): void {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 17;
-        console.log(this.latitude, this.longitude);
         this.mapProperties.center = new google.maps.LatLng(
           this.latitude,
           this.longitude
@@ -124,6 +123,7 @@ export class MapComponent implements OnInit {
     window.history.back();
   }
   canGoToAR = false;
+  allMarkers=[]
 
   addPinToMap(pin:Pin) {
     var marker = new google.maps.Marker({
@@ -158,15 +158,14 @@ export class MapComponent implements OnInit {
       }
     });
     marker.addListener("click", () => {
-      console.log(pin);
       this.map.setZoom(18);
       this.map.setCenter(marker.getPosition() as google.maps.LatLng);
       this.openReadOnlyDialog(pin);
     });
+    this.allMarkers.push(marker)
 }
 
   async openReadOnlyDialog(pin: Pin): Promise<void> {
-    let username;
     const user = await this.pinService
       .getUser(pin.id.toString())
       .pipe(first())
@@ -177,7 +176,9 @@ export class MapComponent implements OnInit {
         description: pin.description ? pin.description : "",
         image3d: pin.image3d ? pin.image3d : "",
         userName: user.name,
-        pinId:pin.id
+        pinId:pin.id,
+        userId:pin.userId,
+        deleted:false
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -190,11 +191,22 @@ export class MapComponent implements OnInit {
           map: this.map,
           icon: "https://maps.google.com/mapfiles/kml/shapes/library_maps.png",
         });
-        console.log(pin)
         this.pinService.setArDestination(pin);
         this.canGoToAR = true;
       }
-    });
+      console.log(result)
+      if(result && result.deleted==='yes'){
+        this.pinService.deletePin(pin.id.toString()).subscribe(()=>{
+          this.allMarkers.forEach((marker)=>{
+            if(marker.position.lat()==pin.latitude &&marker.position.lng()==pin.longitude)
+              marker.setMap(null)
+              marker=null
+          })
+        }
+        )
+      }
+      }
+    );
   }
   Ar(): void {
     clearInterval(this.interval);

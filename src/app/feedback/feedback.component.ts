@@ -24,7 +24,6 @@ export class FeedbackComponent implements OnInit {
     this.pinService
       .getPinInfo(this.route.snapshot.paramMap.get("pinId"))
       .subscribe((result) =>{
-        console.log(result)
         this.pinInfo = result});
     this.form = this.formBuilder.group({
       rating: ["", Validators.required],

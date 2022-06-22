@@ -7,7 +7,8 @@ export interface DialogReadOnly {
   destination: string;
   userName:string;
   pinId:string;
-  deleted:boolean
+  deleted:boolean;
+  userId:string;
 }
 
 @Component({
@@ -21,14 +22,14 @@ export class DialogReadOnlyComponent{
     public dialogRef: MatDialogRef<DialogReadOnlyComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogReadOnly,
     private pinService:PinService
-  ) {}
+  ) {
+    if(localStorage.getItem('user')==='admin' || localStorage.getItem('userId')===this.data.userId)
+      this.showDelete=true
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-  onDeleteReport():void{
-    this.pinService.deletePin(this.data.pinId).subscribe(()=>{
-      this.data.deleted=true
-      this.dialogRef.close();})
-  }
+  showDelete=false
+
 }
