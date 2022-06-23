@@ -15,7 +15,7 @@ export class PinService {
   //=`https://urban-app-be.herokuapp.com`
   //address='http://localhost:3000'
   constructor(private httpClient:HttpClient) {
-    this.address='http://localhost:3000'
+    this.address='https://urban-app-be.herokuapp.com'
    }
 
   private _refreshNeeded=new Subject<number>()
@@ -27,12 +27,7 @@ export class PinService {
     this.allPins.push({
       pin
     })
-    return this.httpClient.post<Pin>(`${this.address}/pin`, pin).pipe(
-      tap((pin)=>{
-        this._refreshNeeded.next(pin.id);
-        
-      })
-    )
+    return this.httpClient.post<Pin>(`${this.address}/pin`, pin) as Observable<Pin>
   }
 
   getPins(latitude:number,longitude:number){
