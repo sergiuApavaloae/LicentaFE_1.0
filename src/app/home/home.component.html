@@ -86,11 +86,6 @@
       </div>
       <br />
       <br />
-      <button (click)="logOut()" mat-raised-button color="primary">
-        Log out
-      </button>
-      <br>
-      <br>
       <button
       *ngIf="admin"
       (click)="test()"
@@ -99,9 +94,7 @@
     >
       Test
     </button>
-    </div>
-
-    <div class="ranking">
+    <br>
       <button
       (click)="goToReports()"
       mat-raised-button
@@ -116,6 +109,11 @@
     color="primary"
   >
     Top users
+  </button>
+  <br>
+  <br>
+  <button (click)="logOut()" mat-raised-button color="primary">
+    Log out
   </button>
     </div>
   </div>

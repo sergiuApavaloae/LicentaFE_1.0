@@ -9,7 +9,9 @@ import { Feedback } from './shared/feedback';
 })
 export class ApiService {
 
-  constructor(private httpClient:HttpClient) {   this.API_SERVER = "https://urban-app-be.herokuapp.com";
+  constructor(private httpClient:HttpClient) {  
+    console.log("Constructor initializat")
+     this.API_SERVER = "https://urban-app-be.herokuapp.com";
     //this.API_SERVER = "http://localhost:3000";
 }
   API_SERVER = "";

@@ -75,12 +75,14 @@ export class MapComponent implements OnInit {
         this.actualPin.description = result.description;
         this.actualPin.type=result.type
 
-        this.pinService.addPin(this.actualPin).subscribe(() => {
-          this.allPins.push(this.actualPin);
-          this.addPinToMap(this.actualPin)
+        this.pinService.addPin(this.actualPin).subscribe((result) => {
+          this.allPins.push(result);
+          this.addPinToMap(result)
+          console.log(result)
+          this.getPins()
         });
       }
-      this.getPins()
+      //this.getPins()
     });
   }
 
@@ -166,6 +168,7 @@ export class MapComponent implements OnInit {
 }
 
   async openReadOnlyDialog(pin: Pin): Promise<void> {
+    console.log(pin)
     const user = await this.pinService
       .getUser(pin.id.toString())
       .pipe(first())
@@ -194,7 +197,6 @@ export class MapComponent implements OnInit {
         this.pinService.setArDestination(pin);
         this.canGoToAR = true;
       }
-      console.log(result)
       if(result && result.deleted==='yes'){
         this.pinService.deletePin(pin.id.toString()).subscribe(()=>{
           this.allMarkers.forEach((marker)=>{
