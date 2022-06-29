@@ -57,7 +57,7 @@ export class ArmodeComponent implements OnInit {
                 longitude,
                 pin.latitude,
                 pin.longitude
-              ) < 0.1
+              ) < 0.01
             ) {
               const address = "feedback" + "/" + pin.id;
               this.router.navigateByUrl(`feedback/${pin.id}`);
@@ -93,5 +93,8 @@ export class ArmodeComponent implements OnInit {
 
   deg2rad(deg) {
     return deg * (Math.PI / 180);
+  }
+  back(): void {
+    window.history.back();
   }
 }

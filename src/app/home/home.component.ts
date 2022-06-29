@@ -26,19 +26,21 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required, Validators.maxLength(15)],
+      name: ["",Validators.maxLength(15)],
       email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(5)]],
+      password: ["", [Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]],
     });
     this.loggedUser = localStorage.getItem("user");
     this.admin = false;
     if (localStorage.getItem("user") === "admin") this.admin = true;
   }
-  showAuthentification(): void {
+  showAuthentication(): void {
     this.wantAuth = !this.wantAuth;
   }
   
   async addUser() {
+    if(this.form.valid)
     this.apiService
       .createUser({
         name: this.form.value.name,
@@ -57,16 +59,16 @@ export class HomeComponent implements OnInit {
         password: this.form.value.password,
       })
       .subscribe(
-        (res) => {
-          this.loggedUser = res.name;
-          localStorage.setItem("userId", res.userId.toString());
-          localStorage.setItem("token", res.access_token);
-          localStorage.setItem("user", res.name);
-          if (res.user === 'admin') {
+        (result) => {
+          this.loggedUser = result.name;
+          localStorage.setItem("userId", result.userId.toString());
+          localStorage.setItem("token", result.access_token);
+          localStorage.setItem("user", result.name);
+          if (result.user === 'admin') {
             this.admin = true;
           }
         },
-        (err) => {
+        (error) => {
           this.loginError = true;
         }
       );

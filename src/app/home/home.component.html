@@ -1,73 +1,42 @@
 <head>
   <title>Report app</title>
 </head>
+
 <body>
-  <h1 class="center">Y(our) Urban Reports App</h1>
+  <h1 class="center">(Y)our City App</h1>
   <div *ngIf="!loggedUser" class="form-group-col-5">
-    <button (click)="showAuthentification()" mat-raised-button color="primary">
-      Authenticate/Log in
+    <button (click)="showAuthentication()" mat-raised-button color="primary">
+      Register/Log in
     </button>
     <br /><br />
     <form [formGroup]="form">
-      <mat-form-field
-        *ngIf="wantAuth"
-        hintLabel="Max 15 characters"
-        appearance="fill"
-      >
+      <mat-form-field *ngIf="wantAuth" hintLabel="Max 15 characters" appearance="fill">
         <mat-label>Name</mat-label>
-        <input
-          matInput
-          #input
-          maxlength="15"
-          placeholder="Ex. Sergiu"
-          type="text"
-          formControlName="name"
-        />
+        <input matInput #input maxlength="15" placeholder="Ex. Sergiu" type="text" formControlName="name" />
         <mat-hint align="end">{{ input.value?.length || 0 }}/15</mat-hint>
       </mat-form-field>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Email</mat-label>
-        <input
-          type="email"
-          matInput
-          formControlName="email"
-          type="text"
-          email="true"
-          placeholder="Ex. pat@example.com"
-        />
+        <input type="email" matInput formControlName="email" type="email" email="true"
+          placeholder="Ex. pat@example.com" />
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Enter Password</mat-label>
-        <input
-          matInput
-          type="password"
-          formControlName="password"
-          class="form-control"
-        />
+        <input matInput type="password" formControlName="password" class="form-control" />
       </mat-form-field>
     </form>
     <mat-error *ngIf="loginError">Wrong email or password</mat-error>
-    <button
-      *ngIf="wantAuth"
-      (click)="addUser()"
-      mat-raised-button
-      color="primary"
-    >
+    <button *ngIf="wantAuth" (click)="addUser()" mat-raised-button color="primary" [disabled]="!form.valid">
       Add this user
     </button>
-    <button
-      *ngIf="!wantAuth"
-      (click)="loginUser()"
-      mat-raised-button
-      color="primary"
-    >
+    <button *ngIf="!wantAuth" (click)="loginUser()" mat-raised-button color="primary">
       Login
     </button>
   </div>
   <div *ngIf="loggedUser">
     <div class="functionalities">
-      <mat-card
-        ><mat-card-content>
+      <mat-card>
+        <mat-card-content>
           <p>Hello {{ loggedUser }} !<br />This is your main dashboard</p>
         </mat-card-content>
       </mat-card>
@@ -86,35 +55,23 @@
       </div>
       <br />
       <br />
-      <button
-      *ngIf="admin"
-      (click)="test()"
-      mat-raised-button
-      color="primary"
-    >
-      Test
-    </button>
-    <br>
-      <button
-      (click)="goToReports()"
-      mat-raised-button
-      color="primary"
-    >
-      Top reports
-    </button>
+      
+      <button (click)="goToReports()" mat-raised-button color="primary">
+        Top reports
+      </button>
       ---
-    <button
-    (click)="goToUsers()"
-    mat-raised-button
-    color="primary"
-  >
-    Top users
-  </button>
-  <br>
-  <br>
-  <button (click)="logOut()" mat-raised-button color="primary">
-    Log out
-  </button>
+      <button (click)="goToUsers()" mat-raised-button color="primary">
+        Top users
+      </button>
+      <br>
+      <br>
+      <button *ngIf="admin" (click)="test()" mat-raised-button color="primary">
+        Test
+      </button>
+      <br>
+      <button (click)="logOut()" mat-raised-button color="primary">
+        Log out
+      </button>
     </div>
   </div>
 </body>

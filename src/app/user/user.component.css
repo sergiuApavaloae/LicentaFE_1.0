@@ -1,0 +1,9 @@
+button{
+    position: absolute;
+    margin-left:auto;
+    margin-right: auto;
+    left: 15%;
+    right: 15%;
+    text-align: center;
+    top:95%
+  }

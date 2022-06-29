@@ -14,7 +14,6 @@ export class UserInfoComponent implements OnInit {
   ngOnInit() {
   this.apiService.getUser(localStorage.getItem('userId')).subscribe(
     (data)=>{
-      console.log(data)
       this.userInfo=data
     }
   )

@@ -78,11 +78,9 @@ export class MapComponent implements OnInit {
         this.pinService.addPin(this.actualPin).subscribe((result) => {
           this.allPins.push(result);
           this.addPinToMap(result)
-          console.log(result)
           this.getPins()
         });
       }
-      //this.getPins()
     });
   }
 
@@ -121,7 +119,6 @@ export class MapComponent implements OnInit {
     });
   }
   back(): void {
-    clearInterval(this.interval);
     window.history.back();
   }
   canGoToAR = false;
@@ -168,7 +165,6 @@ export class MapComponent implements OnInit {
 }
 
   async openReadOnlyDialog(pin: Pin): Promise<void> {
-    console.log(pin)
     const user = await this.pinService
       .getUser(pin.id.toString())
       .pipe(first())

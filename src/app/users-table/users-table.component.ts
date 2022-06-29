@@ -2,6 +2,7 @@ import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort, Sort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ApiService } from '../api.service';
 
 export interface InfoElement {
@@ -25,7 +26,8 @@ export class UsersTableComponent implements OnInit {
   ELEMENT_DATA: InfoElement[] = []
 
   constructor(private _liveAnnouncer: LiveAnnouncer,
-    private apiService:ApiService) {}
+    private apiService:ApiService,
+    private router:Router) {}
     dataSource:any
     ngOnInit(){
        this.apiService.getUserInfo().subscribe(results=>{
@@ -41,5 +43,9 @@ export class UsersTableComponent implements OnInit {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  back(): void {
+    this.router.navigateByUrl("home");
   }
 }
