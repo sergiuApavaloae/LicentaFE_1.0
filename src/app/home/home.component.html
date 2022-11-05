@@ -5,8 +5,11 @@
 <body>
   <h1 class="center">(Y)our City App</h1>
   <div *ngIf="!loggedUser" class="form-group-col-5">
-    <button (click)="showAuthentication()" mat-raised-button color="primary">
-      Register/Log in
+    <button *ngIf="!wantAuth" (click)="showAuthentication()" mat-raised-button color="primary">
+      Go to Register
+    </button>
+    <button *ngIf="wantAuth" (click)="showAuthentication()" mat-raised-button color="primary">
+      Go to Login
     </button>
     <br /><br />
     <form [formGroup]="form">
@@ -23,16 +26,25 @@
       <mat-form-field appearance="fill">
         <mat-label>Enter Password</mat-label>
         <input matInput type="password" formControlName="password" class="form-control" />
+        <mat-hint *ngIf="wantAuth">Password must contain upper and lower case letters,at least one numeral,at least one symbol(e.g !?#$) and must have at least 8 characters</mat-hint>
       </mat-form-field>
     </form>
-    <mat-error *ngIf="loginError">Wrong email or password</mat-error>
-    <button *ngIf="wantAuth" (click)="addUser()" mat-raised-button color="primary" [disabled]="!form.valid">
+    <mat-error *ngIf="loginError && !wantAuth">Wrong email or password</mat-error>
+    <br>
+    <br>
+  <div  *ngIf="wantAuth && !loggedUser" > 
+    <br>
+    <br>
+    <button  (click)="addUser()" mat-raised-button color="primary" [disabled]="!form.valid">
       Add this user
     </button>
-    <button *ngIf="!wantAuth" (click)="loginUser()" mat-raised-button color="primary">
+  </div>
+  <div *ngIf="!wantAuth && !loggedUser ">
+    <button  *ngIf="!wantAuth && !loggedUser " (click)="loginUser()" mat-raised-button color="primary">
       Login
     </button>
   </div>
+</div>
   <div *ngIf="loggedUser">
     <div class="functionalities">
       <mat-card>

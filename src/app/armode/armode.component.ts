@@ -45,7 +45,7 @@ export class ArmodeComponent implements OnInit {
       .querySelector("mat-raised-button")
       .addEventListener("click", (e) => {
         const pin = this.pinService.selectedPin;
-        this.router.navigateByUrl(`feedback/${pin.id}`);
+        //this.router.navigateByUrl(`feedback/${pin.id}`);
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition((position) => {
             const latitude = position.coords.latitude;

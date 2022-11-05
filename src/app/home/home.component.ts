@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
         password: this.form.value.password
       })
       .subscribe((res) => {
-        this.needLogin = "auth";
+        this.wantAuth = false;
       });
   }
   

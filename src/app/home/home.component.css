@@ -102,7 +102,25 @@ top:20%
   left: 5%;
   right: 5%;
   text-align: center;
-  top:80%
+  top:40%
+}
+.loginButon{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 35%;
+  right: 35%;
+  text-align: center;
+  top:65%
+}
+.registerButon{
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 35%;
+  right: 35%;
+  text-align: center;
+  top:85%
 }
 .ranking{
   position: absolute;
